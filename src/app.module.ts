@@ -11,9 +11,15 @@ import { ReservationsService } from './reservations/reservations.service';
 import { ReservationsController } from './reservations/reservations.controller';
 import { ReservationsModule } from './reservations/reservations.module';
 import { ChatsService } from './chats/chats.service';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [RoomsModule, HotelsModule, ReservationsModule],
+  imports: [
+    MongooseModule.forRoot(process.env.MONGODB_URL),
+    RoomsModule,
+    HotelsModule,
+    ReservationsModule    
+  ],
   controllers: [AppController, RoomsController, HotelsController, ReservationsController],
   providers: [AppService, RoomsService, HotelsService, ReservationsService, ChatsService],
 })

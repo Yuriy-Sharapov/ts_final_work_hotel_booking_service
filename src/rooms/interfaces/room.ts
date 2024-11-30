@@ -2,7 +2,7 @@ import { ID } from "src/types"
 
 export interface IRoom {
     id          : ID
-    hotel       : ID
+    hotelId     : ID
     description : string 
     images      : string[]
     createdAt   : Date

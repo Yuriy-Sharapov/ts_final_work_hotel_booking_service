@@ -1,55 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { IUserDto } from './interfaces/user';
-import { identity } from 'rxjs';
-import { ISignupUserDto } from './interfaces/signup.user.dto';
+import { ID } from 'src/types';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from './users.schema';
+import { Connection, Model } from 'mongoose';
+import { IUserService } from './interfaces/user.service';
+import { ISearchUserParams } from './interfaces/search.user.params';
 
 @Injectable()
-export class UsersService {
-   
-    private readonly users: IUserDto[] = [
-        {
-            id       : 1,
-            email    : "user@mail.ru",
-            password : "1",
-            firstName: "John",
-            lastName : "Johnson"
-        },
-        {
-            id       : 2,
-            email    : "jill@mail.ru",
-            password : "2",
-            firstName: "Jill",
-            lastName : "Jillson"
-        }        
-    ];
+export class UsersService implements IUserService {
+    constructor(
+        @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @InjectConnection() private connection: Connection
+    ) {}
 
-    findAll(): IUserDto[] {
-        return this.users
+    async create(data: Partial<User>): Promise<UserDocument> {
+        const user = new this.userModel(data)
+        return user.save()
     }
-
-    async findOne(email: string): Promise<IUserDto | undefined> {
-        return this.users.find( user => user.email === email)
+    async findById(id: ID): Promise<UserDocument> {
+        return this.userModel.findById(id).exec()
     }
-
-    async findOneById(userId: number): Promise<IUserDto | undefined> {
-        return this.users.find( user => user.id == userId)
+    async findByEmail(email: string): Promise<UserDocument> {
+        return this.userModel.findOne({ email: email }).exec()
     }
+    async findAll(params: ISearchUserParams): Promise<UserDocument[]> {
 
-    async create(signupUserDto: ISignupUserDto): Promise<IUserDto> {
+        // При поиске поля email, name и contactPhone должны проверяться на частичное совпадение
+        let maskedParams = params
+        if (maskedParams.email)
+            maskedParams.email = `/${maskedParams.email}/`
         
-        const newUserId = this._getMaxId() + 1
-        const dbUser: IUserDto = {
-            id: newUserId,
-            ...signupUserDto
-        }
-        this.users.push(dbUser)
-        return dbUser
-    }
-    
-    private _getMaxId(): number {        
-        if(this.users.length === 0)
-            return 0
+        if (maskedParams.name)
+            maskedParams.name = `/${maskedParams.name}/`
 
-        return Number(Math.max(...this.users.map(user => user.id)))
-    }    
+        if (maskedParams.contactPhone)
+            maskedParams.contactPhone = `/${maskedParams.contactPhone}/`
+
+        return this.userModel.find(maskedParams).exec()
+    }
 }

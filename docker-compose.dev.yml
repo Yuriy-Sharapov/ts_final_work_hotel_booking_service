@@ -1,0 +1,22 @@
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017     
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example 
+  hotel_booking_service:
+    image: node:20.10
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - PORT=3002
+      - MONGODB_URL=mongodb://root:example@mongo:27017/
+    ports:
+      - 80:3002
+    command: npm run start:dev
+    depends_on:
+      - mongo

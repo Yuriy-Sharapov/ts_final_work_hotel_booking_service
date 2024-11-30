@@ -1,10 +1,10 @@
 import { ID } from "src/types";
-import { IUser } from "./user";
 import { ISearchUserParams } from "./search.user.params";
+import { User, UserDocument } from "../users.schema";
 
 export interface IUserService {
-    create(data: Partial<IUser>): Promise<IUser>;
-    findById(id: ID): Promise<IUser>;
-    findByEmail(email: string): Promise<IUser>;
-    findAll(params: ISearchUserParams): Promise<IUser[]>;
+    create(data: Partial<User>): Promise<UserDocument>;
+    findById(id: ID): Promise<UserDocument>;
+    findByEmail(email: string): Promise<UserDocument>;
+    findAll(params: ISearchUserParams): Promise<UserDocument[]>;
 }
