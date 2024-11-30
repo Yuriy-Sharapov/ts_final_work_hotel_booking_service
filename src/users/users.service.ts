@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ID } from 'src/types';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './users.schema';
 import { Connection, Model } from 'mongoose';
+import { User, UserDocument } from './users.schema';
 import { IUserService } from './interfaces/user.service';
 import { ISearchUserParams } from './interfaces/search.user.params';
 
