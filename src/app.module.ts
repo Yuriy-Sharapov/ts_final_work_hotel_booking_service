@@ -18,7 +18,7 @@ import { ReservationsModule } from './reservations/reservations.module';
 import { ReservationsController } from './reservations/reservations.controller';
 import { ReservationsService } from './reservations/reservations.service';
 
-import { ChatsService } from './chats/chats.service';
+import { ChatsService } from './support.requests/support.requests.service';
 import { MongooseModule } from '@nestjs/mongoose';
 
 

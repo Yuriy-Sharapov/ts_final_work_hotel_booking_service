@@ -1,4 +1,4 @@
-import { IMarkMessagesAsReadDto } from "src/messages/interfaces/mark.messages.as.read.dto"
+import { IMarkMessagesAsReadDto } from "src/support.requests/interfaces/mark.messages.as.read.dto"
 import { ID } from "src/types"
 
 export interface ISupportRequestEmployeeService {

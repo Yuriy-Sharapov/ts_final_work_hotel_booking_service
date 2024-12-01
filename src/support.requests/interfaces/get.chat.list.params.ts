@@ -1,6 +1,6 @@
 import { ID } from "src/types";
 
 export interface IGetChatListParams {
-    user    : ID | null;
+    userId  : ID | null;
     isActive: boolean;
 }
