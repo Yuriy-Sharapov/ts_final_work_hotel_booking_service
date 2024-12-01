@@ -1,12 +1,12 @@
 import { ID } from "src/types";
-import { IReservation } from "./reservation";
 import { IReservationDto } from "./reservation.dto";
 import { IReservationSearchOptions } from "./reservation.search.options";
+import { ReservationDocument } from "../reservations.schema";
 
 export interface IReservationService {
-    addReservation(data: IReservationDto): Promise<IReservation>;
+    addReservation(data: IReservationDto): Promise<ReservationDocument>;
     removeReservation(id: ID): Promise<void>;
     getReservations(
       filter: IReservationSearchOptions
-    ): Promise<Array<IReservation>>;
+    ): Promise<Array<ReservationDocument>>;
 }
