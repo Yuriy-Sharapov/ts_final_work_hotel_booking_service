@@ -1,0 +1,74 @@
+[
+    {
+        "hotelId"    : 1,
+        "description": "Двухместный номер Classic",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },
+    {
+        "hotelId"    : 1,
+        "description": "Двухместный номер Deluxe с видом на улицу",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },
+    {
+        "hotelId"    : 1,
+        "description": "Двухместный номер Deluxe с видом на сад",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },    
+    {
+        "hotelId"    : 1,
+        "description": "Двухместный номер Premium",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },    
+    {
+        "hotelId"    : 1,
+        "description": "Трёхместный номер Deluxe с видом на улицу",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    }, 
+    {
+        "hotelId"    : 2,
+        "description": "Студия",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },  
+    {
+        "hotelId"    : 2,
+        "description": "Двухместная студия",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },          
+    {
+        "hotelId"    : 3,
+        "description": "Двухместный номер Standard",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },    
+    {
+        "hotelId"    : 3,
+        "description": "Двухместный номер Standard Accessible",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },    
+    {
+        "hotelId"    : 3,
+        "description": "Семейный номер Standard",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },    
+    {
+        "hotelId"    : 3,
+        "description": "Двухместный номер Executive",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    },    
+    {
+        "hotelId"    : 3,
+        "description": "Двухместный полулюкс",
+        "images"     : ["1", "2", "3"],
+        "isEnabled"  : true
+    }                       
+]

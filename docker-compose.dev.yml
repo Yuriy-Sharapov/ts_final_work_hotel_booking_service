@@ -15,7 +15,7 @@ services:
     environment:
       - PORT=3002
       - MONGODB_URL=mongodb://root:example@mongo:27017/
-      - JWT_SERCRET_KEY=u1Yi!g,o3^>{l/#
+      - JWT_SERCRET_KEY=!Kx&9Z2Cp~f<A<A
     ports:
       - 80:3002
     command: npm run start:dev

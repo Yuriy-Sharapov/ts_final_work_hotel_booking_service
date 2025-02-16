@@ -1,5 +1,13 @@
-import { ObjectId } from "mongoose"
+import { ObjectId } from 'mongoose';
 
-export type ID = string | ObjectId
+export type ID = ObjectId;
 
-export enum Role { client, admin, manager }
+export enum Role {
+  client,
+  admin,
+  manager,
+}
+
+export interface IParamId {
+  id: ID;
+}

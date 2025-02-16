@@ -1,5 +1,5 @@
 export interface ISearchHotelParams {
-    limit : number
-    offset: number
-    title : string
+  limit: number;
+  offset: number;
+  title: string;
 }

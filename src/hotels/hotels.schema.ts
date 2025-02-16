@@ -1,26 +1,25 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, HydratedDocument } from 'mongoose'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 //export type HotelDocument = Hotel & Document
-export type HotelDocument = HydratedDocument<Hotel>
+export type HotelDocument = HydratedDocument<Hotel>;
 
 @Schema()
 export class Hotel {
-    
-    @Prop({
-        required: true,
-        unique:   true
-    })
-    public title: string
+  @Prop({
+    required: true,
+    unique: true,
+  })
+  public title: string;
 
-    @Prop()
-    public description: string
+  @Prop()
+  public description: string;
 
-    @Prop({ required: true })
-    createdAt: Date
+  @Prop({ required: true })
+  createdAt: Date;
 
-    @Prop()
-    updatedAt: Date
+  @Prop()
+  updatedAt: Date;
 }
 
-export const HotelSchema = SchemaFactory.createForClass(Hotel)
+export const HotelSchema = SchemaFactory.createForClass(Hotel);

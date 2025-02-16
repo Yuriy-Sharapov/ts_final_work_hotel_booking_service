@@ -5,13 +5,13 @@ import { AuthModule } from 'src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './users.schema';
 
-@Module({ 
-    imports: [
-        //MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-        forwardRef(() => AuthModule)   // разрешаем циклическую зависимость AuthModule -> UsersModule
-    ], 
-    controllers: [UsersController],
-    providers: [UsersService],
-    exports: [UsersService]
+@Module({
+  imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    forwardRef(() => AuthModule), // разрешаем циклическую зависимость AuthModule -> UsersModule
+  ],
+  controllers: [UsersController],
+  providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

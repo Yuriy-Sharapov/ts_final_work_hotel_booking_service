@@ -1,7 +1,7 @@
-import { ID } from "src/types"
+import { ID } from 'src/types';
 
 export interface IReservationSearchOptions {
-    userId   : ID
-    dateStart: Date
-    dateEnd  : Date
+  userId: ID;
+  dateStart: Date;
+  dateEnd: Date;
 }

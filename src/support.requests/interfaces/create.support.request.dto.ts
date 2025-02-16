@@ -1,6 +1,6 @@
-import { ID } from "src/types"
+import { ID } from 'src/types';
 
 export interface ICreateSupportRequestDto {
-    userId: ID
-    text  : string
+  userId: ID;
+  text: string;
 }
