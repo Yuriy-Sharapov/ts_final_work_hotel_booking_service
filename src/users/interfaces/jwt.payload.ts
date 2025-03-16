@@ -3,5 +3,6 @@
 export interface IJwtPayload {
   id: string; // id пользователя
   email: string; // email пользователя
-  firstName: string; // firstName пользователя
+  name: string; // name пользователя
+  contactPhone: string; // контактный телефон пользователя
 }

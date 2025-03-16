@@ -3,10 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { UsersModule } from './users/users.module';
-import { UsersController } from './users/users.controller';
+import { UsersClientController } from './users/users.client.controller';
 import { UsersService } from './users/users.service';
 
 import { HotelsModule } from './hotels/hotels.module';
+import { UsersAuthController } from './users/users.auth.controller';
 import { HotelsAdminController } from './hotels/hotels.admin.controller';
 import { HotelsService } from './hotels/hotels.service';
 
@@ -22,6 +23,9 @@ import { ReservationsService } from './reservations/reservations.service';
 
 import { SupportRequestsService } from './support.requests/support.requests.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UsersAdminController } from './users/users.Admin.controller';
+import { UsersManagerController } from './users/users.manager.controller';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -33,7 +37,10 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   controllers: [
     AppController,
-    UsersController,
+    UsersAuthController,
+    UsersAdminController,
+    UsersManagerController,
+    UsersClientController,
     HotelsAdminController,
     RoomsAdminController,
     RoomsCommonController,
@@ -42,6 +49,7 @@ import { MongooseModule } from '@nestjs/mongoose';
   ],
   providers: [
     AppService,
+    AuthService,
     UsersService,
     HotelsService,
     RoomsService,

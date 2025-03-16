@@ -88,7 +88,7 @@ export class ReservationsService implements IReservationService {
     };
     return this.reservationModel.find(allUsefilterrReservation).exec();
   }
-  
+
   async findById(id: ID): Promise<ReservationDocument> {
     return this.reservationModel.findById(id).exec();
   }

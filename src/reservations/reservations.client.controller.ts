@@ -9,6 +9,8 @@ import {
   Post,
   Query,
   Request,
+  SetMetadata,
+  UseGuards,
 } from '@nestjs/common';
 import { IParamUser } from 'src/users/interfaces/IParamUser';
 import { ReservationDocument } from './reservations.schema';
@@ -16,41 +18,17 @@ import { ReservationsService } from './reservations.service';
 import { IReservationDto } from './interfaces/reservation.dto';
 import { IParamId, Role } from 'src/types';
 import { IReservationSearchOptions } from './interfaces/reservation.search.options';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('/api/client/reservations/')
+@SetMetadata('roles', [Role.client]) // Запуска методы текущего класса может только Client
+@UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
 export class ReservationsClientController {
   constructor(private readonly reservationsService: ReservationsService) {}
 
   // 2.2.1. Создаёт бронь на номер на выбранную дату для текущего пользователя.
   @Post()
-  async create(
-    @Request() { user }: IParamUser,
-    @Body() body: IReservationDto,
-  ): Promise<ReservationDocument> {
-    if (!user)
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED, // 401
-          error: 'Пользователь не аутентифицирован',
-        },
-        HttpStatus.UNAUTHORIZED,
-        {
-          cause: 'Пользователь не аутентифицирован',
-        },
-      );
-
-    if (user.role != Role.client)
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN, // 403
-          error: 'Роль пользователя не client',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: 'Роль пользователя не client',
-        },
-      );
-
+  async create(@Body() body: IReservationDto): Promise<ReservationDocument> {
     const reservation = this.reservationsService.addReservation(body);
     if (!reservation)
       throw new HttpException(
@@ -69,67 +47,18 @@ export class ReservationsClientController {
 
   // 2.2.2 Список броней текущего пользователя
   @Get()
-  async search_reservs(
-    @Request() { user }: IParamUser,
+  async searchReservs(
     @Query() params: IReservationSearchOptions,
   ): Promise<ReservationDocument[]> {
-    if (!user)
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED, // 401
-          error: 'Пользователь не аутентифицирован',
-        },
-        HttpStatus.UNAUTHORIZED,
-        {
-          cause: 'Пользователь не аутентифицирован',
-        },
-      );
-
-    if (user.role != Role.client)
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN, // 403
-          error: 'Роль пользователя не client',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: 'Роль пользователя не client',
-        },
-      );
-
     return this.reservationsService.getReservations(params);
   }
 
   // 2.2.3 Отмена бронирования клиентом
   @Delete(':id')
-  async delete_reserv(
+  async deleteReserv(
     @Request() { user }: IParamUser,
     @Param() { id }: IParamId,
   ): Promise<void> {
-    if (!user)
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED, // 401
-          error: 'Пользователь не аутентифицирован',
-        },
-        HttpStatus.UNAUTHORIZED,
-        {
-          cause: 'Пользователь не аутентифицирован',
-        },
-      );
-
-    if (user.role != Role.client)
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN, // 403
-          error: 'Роль пользователя не client',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: 'Роль пользователя не client',
-        },
-      );
-
     const reservation = await this.reservationsService.findById(id);
 
     if (!reservation)

@@ -1,20 +1,26 @@
 import { Module } from '@nestjs/common';
 
 import { UsersModule } from 'src/users/users.module';
-import { UsersController } from 'src/users/users.controller';
+import { UsersAdminController } from 'src/users/users.admin.controller';
 import { UsersService } from 'src/users/users.service';
 
 import { HotelsModule } from 'src/hotels/hotels.module';
-import { HotelsController } from 'src/hotels/hotels.admin.controller';
+import { HotelsAdminController } from 'src/hotels/hotels.admin.controller';
 import { HotelsService } from 'src/hotels/hotels.service';
 
 import { RoomsModule } from 'src/rooms/rooms.module';
-import { RoomsController } from 'src/rooms/rooms.controller';
+import { RoomsAdminController } from 'src/rooms/rooms.admin.controller';
+import { RoomsCommonController } from 'src/rooms/rooms.common.controller';
 import { RoomsService } from 'src/rooms/rooms.service';
 
 @Module({
   imports: [UsersModule, HotelsModule, RoomsModule],
-  controllers: [UsersController, RoomsController, HotelsController],
+  controllers: [
+    UsersAdminController,
+    RoomsAdminController,
+    RoomsCommonController,
+    HotelsAdminController,
+  ],
   providers: [UsersService, HotelsService, RoomsService],
 })
 export class ReservationsModule {}

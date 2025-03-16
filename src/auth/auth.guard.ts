@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,13 +10,18 @@ import { Request } from 'express';
 import { IJwtPayload } from 'src/users/interfaces/jwt.payload';
 
 import * as dotenv from 'dotenv';
+import { Reflector } from '@nestjs/core';
 dotenv.config();
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    // 1. Проверяем аутентификацию пользователя
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
 
@@ -29,6 +35,24 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
+
+    // 2. Проверяем соответствует ли роль авторизованного пользователя,
+    // списку ролей, которые закреплены за методом контроллера
+
+    // Получаем список ролей пользователя, которые закреплены за вызываемым методом контроллера
+    const currentRouteRoles = this.reflector.get<string[]>(
+      'roles',
+      context.getHandler(),
+    );
+    if (!currentRouteRoles) {
+      return true;
+    }
+
+    // Если список ролей метода НЕ содержит роль текущего пользователя, выдаем ошибку
+    if (!currentRouteRoles.includes(request['user'].role)) {
+      throw new ForbiddenException(); // HTTP 403
+    }
+
     return true;
   }
 
