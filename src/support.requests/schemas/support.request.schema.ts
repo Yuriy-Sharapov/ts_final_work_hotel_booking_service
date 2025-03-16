@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { User } from 'src/users/users.schema';
+import { User, UserHDocument } from 'src/users/users.schema';
 import { Message } from 'src/support.requests/schemas/messages.schema';
 
 export type SupportRequestDocument = HydratedDocument<SupportRequest>;
@@ -8,7 +8,7 @@ export type SupportRequestDocument = HydratedDocument<SupportRequest>;
 @Schema()
 export class SupportRequest {
   @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-  public user: User;
+  public user: UserHDocument;
 
   @Prop({ required: true })
   public createdAt: Date;

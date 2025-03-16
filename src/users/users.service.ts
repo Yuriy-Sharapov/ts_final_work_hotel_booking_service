@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ID } from 'src/types';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { User, UserDocument, UserHDocument } from './users.schema';
+import { User, UserHDocument } from './users.schema';
 import { IUserService } from './interfaces/user.service';
 import { ISearchUserParams } from './interfaces/search.user.params';
 import { IUserAttr } from './interfaces/user.attr';
@@ -10,7 +10,7 @@ import { IUserAttr } from './interfaces/user.attr';
 @Injectable()
 export class UsersService implements IUserService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(User.name) private userModel: Model<UserHDocument>,
     @InjectConnection() private connection: Connection,
   ) {}
 
@@ -19,7 +19,7 @@ export class UsersService implements IUserService {
     const user = new this.userModel(data);
     return user.save();
   }
-  async findById(id: ID): Promise<IUserAttr> {
+  async findById(id: ID): Promise<UserHDocument> {
     //u
     return this.userModel.findById(id).exec();
   }

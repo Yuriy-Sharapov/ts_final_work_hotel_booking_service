@@ -13,16 +13,16 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { IParamUser } from 'src/users/interfaces/IParamUser';
-import { ReservationDocument } from './reservations.schema';
-import { ReservationsService } from './reservations.service';
-import { IReservationDto } from './interfaces/reservation.dto';
+import { ReservationDocument } from '../reservations.schema';
+import { ReservationsService } from '../reservations.service';
+import { IReservationDto } from '../interfaces/reservation.dto';
 import { IParamId, Role } from 'src/types';
-import { IReservationSearchOptions } from './interfaces/reservation.search.options';
+import { IReservationSearchOptions } from '../interfaces/reservation.search.options';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('/api/client/reservations/')
-@SetMetadata('roles', [Role.client]) // Запуска методы текущего класса может только Client
-@UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
+@SetMetadata('roles', [Role.client])      // Запускать методы текущего класса может только Client
+@UseGuards(AuthGuard)                     // Профиль пользователя под защитой JWT-токена
 export class ReservationsClientController {
   constructor(private readonly reservationsService: ReservationsService) {}
 

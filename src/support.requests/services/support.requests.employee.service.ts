@@ -5,12 +5,13 @@ import { Connection, Model } from 'mongoose';
 import {
   SupportRequest,
   SupportRequestDocument,
-} from './schemas/support.requests.schema';
-import { ISupportRequestEmployeeService } from './interfaces/support.request.employee.service';
-import { IMarkMessagesAsReadDto } from './interfaces/mark.messages.as.read.dto';
+} from '../schemas/support.request.schema';
+import { ISupportRequestEmployeeService } from '../interfaces/support.request.employee.service';
+import { IMarkMessagesAsReadDto } from '../interfaces/mark.messages.as.read.dto';
+import { IMarkMessagesAsReadAnswer } from '../interfaces/mark.messages.as.read.answer';
 
 @Injectable()
-export class SupportRequestEmployeeService
+export class SupportRequestsEmployeeService
   implements ISupportRequestEmployeeService
 {
   constructor(
@@ -19,7 +20,11 @@ export class SupportRequestEmployeeService
     @InjectConnection() private connection: Connection,
   ) {}
 
-  async markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<void> {
+  async markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<IMarkMessagesAsReadAnswer> {
+    //u
+
+    // должен выставлять текущую дату в поле readAt всем сообщениям,
+    // которые не были прочитаны и были отправлены пользователем
     const date = new Date();
 
     try {
@@ -32,11 +37,17 @@ export class SupportRequestEmployeeService
         },
         { readAt: date },
       );
+
+      return { "success": true }
+
     } catch (e) {
       console.log(e);
+      return { "success": false }
     }
   }
+
   async getUnreadCount(supportRequestId: ID): Promise<number> {
+    //u
     // должен возвращать количество сообщений,
     // которые были отправлены пользователем и не отмечены прочитанными.
     return this.supportRequestModel.findById(supportRequestId).countDocuments({
@@ -45,6 +56,7 @@ export class SupportRequestEmployeeService
     });
   }
   async closeRequest(supportRequestId: ID): Promise<void> {
+    // должен менять флаг isActive на false
     await this.supportRequestModel.findOneAndUpdate(
       { _id: supportRequestId },
       { isActive: false },

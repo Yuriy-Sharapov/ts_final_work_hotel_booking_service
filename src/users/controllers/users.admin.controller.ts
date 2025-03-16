@@ -9,16 +9,16 @@ import {
   Query,
   SetMetadata,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { ISignupUserDto } from './interfaces/signup.user.dto';
+import { UsersService } from '../users.service';
+import { ISignupUserDto } from '../interfaces/signup.user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { IUserAttr } from './interfaces/user.attr';
+import { IUserAttr } from '../interfaces/user.attr';
 import { Role } from 'src/types';
-import { ISearchUserParams } from './interfaces/search.user.params';
+import { ISearchUserParams } from '../interfaces/search.user.params';
 
 @Controller('api/admin/users')
-@SetMetadata('roles', [Role.admin]) // Запуска методы текущего класса может только Admin
-@UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
+@SetMetadata('roles', [Role.admin])     // Запускать методы текущего класса может только Admin
+@UseGuards(AuthGuard)                   // Профиль пользователя под защитой JWT-токена
 export class UsersAdminController {
   constructor(private readonly usersService: UsersService) {
     // Проверяем, какие пользователи проинициализированы

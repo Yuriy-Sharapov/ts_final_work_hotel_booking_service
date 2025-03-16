@@ -5,15 +5,16 @@ import { Connection, Model } from 'mongoose';
 import {
   SupportRequest,
   SupportRequestDocument,
-} from './schemas/support.requests.schema';
-import { ISupportRequestClientService } from './interfaces/support.request.client.service';
-import { ICreateSupportRequestDto } from './interfaces/create.support.request.dto';
-import { IMarkMessagesAsReadDto } from './interfaces/mark.messages.as.read.dto';
-import { Message } from './schemas/messages.schema';
+} from '../schemas/support.request.schema';
+import { ISupportRequestClientService } from '../interfaces/support.request.client.service';
+import { ICreateSupportRequestDto } from '../interfaces/create.support.request.dto';
+import { IMarkMessagesAsReadDto } from '../interfaces/mark.messages.as.read.dto';
+import { Message } from '../schemas/messages.schema';
 import { UsersService } from 'src/users/users.service';
+import { IMarkMessagesAsReadAnswer } from '../interfaces/mark.messages.as.read.answer';
 
 @Injectable()
-export class SupportRequestClientService
+export class SupportRequestsClientService
   implements ISupportRequestClientService
 {
   constructor(
@@ -23,9 +24,8 @@ export class SupportRequestClientService
     private readonly usersService: UsersService,
   ) {}
 
-  async createSupportRequest(
-    data: ICreateSupportRequestDto,
-  ): Promise<SupportRequestDocument> {
+  async createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequestDocument> {
+    //u
     try {
       const sentDate = new Date();
       const user = await this.usersService.findById(data.userId);
@@ -33,14 +33,14 @@ export class SupportRequestClientService
       const firstMessage: Message = {
         author: user,
         sentAt: sentDate,
-        text: data.text,
+        text  : data.text,
         readAt: null,
       };
       const supportRequest: SupportRequest = {
-        user: user,
+        user     : user,
         createdAt: sentDate,
-        messages: [firstMessage],
-        isActive: true,
+        messages : [firstMessage],
+        isActive : true,
       };
       const dbSupportRequest = new this.supportRequestModel(supportRequest);
       return dbSupportRequest.save();
@@ -49,7 +49,9 @@ export class SupportRequestClientService
       return null;
     }
   }
-  async markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<void> {
+  async markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<IMarkMessagesAsReadAnswer> {
+    //u
+
     // Должен выставлять текущую дату в поле readAt всем сообщениям,
     // которые ранее не были прочитаны и были отправлены не пользователем
 
@@ -65,15 +67,20 @@ export class SupportRequestClientService
         },
         { readAt: date },
       );
+
+      return { "success": true }
+
     } catch (e) {
       console.log(e);
+      return { "success": false }
     }
   }
   async getUnreadCount(supportRequest: ID): Promise<number> {
+    //u
     // должен возвращать количество сообщений,
     // которые были отправлены любым сотрудником поддержки и не отмечены прочитанным
     return this.supportRequestModel.findById(supportRequest).countDocuments({
-      'messages.readAt': null,
+      'messages.readAt'     : null,
       'messages.author.role': Role.manager, // отправлены сотрудником поддержки
     });
   }

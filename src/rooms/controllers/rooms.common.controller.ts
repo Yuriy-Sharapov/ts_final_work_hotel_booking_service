@@ -1,7 +1,7 @@
 import { Controller, Get, Request, Param, Query } from '@nestjs/common';
-import { RoomsService } from './rooms.service';
-import { RoomDocument } from './rooms.schema';
-import { ISearchRoomsParams } from './interfaces/search.rooms.params';
+import { RoomsService } from '../rooms.service';
+import { RoomDocument } from '../rooms.schema';
+import { ISearchRoomsParams } from '../interfaces/search.rooms.params';
 import { IParamId, Role } from 'src/types';
 import { IParamUser } from 'src/users/interfaces/IParamUser';
 

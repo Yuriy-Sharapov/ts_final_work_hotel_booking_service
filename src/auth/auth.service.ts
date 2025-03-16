@@ -4,6 +4,7 @@ import { ID } from 'src/types';
 import { IJwtPayload } from 'src/users/interfaces/jwt.payload';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
+import { UserHDocument } from 'src/users/users.schema';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUserByJwt(userId: ID): Promise<any> {
+  async validateUserByJwt(userId: ID): Promise<UserHDocument> {
     const user = await this.usersService.findById(userId);
     if (user) return user;
     else return null;
@@ -31,9 +32,9 @@ export class AuthService {
     // }
 
     const payload: IJwtPayload = {
-      id: user.id.toString(),
-      email: user.email,
-      name: user.name,
+      id          : user.id.toString(),
+      email       : user.email,
+      name        : user.name,
       contactPhone: user.contactPhone,
     };
     return {

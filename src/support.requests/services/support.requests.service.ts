@@ -5,15 +5,16 @@ import { Connection, Model } from 'mongoose';
 import {
   SupportRequest,
   SupportRequestDocument,
-} from './schemas/support.requests.schema';
+} from '../schemas/support.request.schema';
 import {
   Message,
   MessageDocument,
 } from 'src/support.requests/schemas/messages.schema';
-import { ISupportRequestService } from './interfaces/support.request.service';
-import { IGetChatListParams } from './interfaces/get.chat.list.params';
+import { ISupportRequestService } from '../interfaces/support.request.service';
 import { ISendMessageDto } from 'src/support.requests/interfaces/send.message.dto';
 import { UsersService } from 'src/users/users.service';
+import { ISearchSupportRequestParams } from '../interfaces/search.support.request.params';
+import { SupportRequestsGateway } from '../support.requests.gateway';
 
 @Injectable()
 export class SupportRequestsService implements ISupportRequestService {
@@ -23,24 +24,29 @@ export class SupportRequestsService implements ISupportRequestService {
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
     @InjectConnection() private connection: Connection,
     private readonly usersService: UsersService,
+    private readonly supportRequestsGateway: SupportRequestsGateway
   ) {}
 
-  async findSupportRequests(
-    params: IGetChatListParams,
-  ): Promise<SupportRequestDocument[]> {
+  async findSupportRequests(params: ISearchSupportRequestParams): Promise<SupportRequestDocument[]> {
+    //u
     try {
       return await this.supportRequestModel.find(params).exec();
     } catch (e) {
       console.log(e);
     }
   }
+  async findById(id: ID): Promise<SupportRequestDocument> {
+    //u
+    return this.supportRequestModel.findById(id).exec();
+  }
   async sendMessage(data: ISendMessageDto): Promise<MessageDocument> {
+    //u
     try {
       const author = await this.usersService.findById(data.authorId);
       const message: Message = {
         author: author,
         sentAt: new Date(),
-        text: data.text,
+        text  : data.text,
         readAt: null,
       };
 
@@ -77,6 +83,7 @@ export class SupportRequestsService implements ISupportRequestService {
     }
   }
   async getMessages(supportRequestId: ID): Promise<MessageDocument[]> {
+    //u
     let supportRequest: any;
     try {
       supportRequest = await this.supportRequestModel
@@ -91,7 +98,8 @@ export class SupportRequestsService implements ISupportRequestService {
   }
   // async subscribe(
   //   handler: (supportRequest: SupportRequest, message: Message) => void
-  // ): () => void {
+  // ): Promise<() => void> {
 
+   
   // }
 }

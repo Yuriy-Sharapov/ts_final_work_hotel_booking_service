@@ -7,11 +7,11 @@ import {
   HttpException,
   Request,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { ISignupUserDto } from './interfaces/signup.user.dto';
-import { IUserAttr } from './interfaces/user.attr';
+import { UsersService } from '../users.service';
+import { ISignupUserDto } from '../interfaces/signup.user.dto';
+import { IUserAttr } from '../interfaces/user.attr';
 import { Role } from 'src/types';
-import { IParamUser } from './interfaces/IParamUser';
+import { IParamUser } from '../interfaces/IParamUser';
 
 @Controller('api/client')
 export class UsersClientController {

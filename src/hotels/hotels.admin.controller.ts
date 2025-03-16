@@ -17,7 +17,7 @@ import { IUpdateHotelParams } from './interfaces/update.hotel.params';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('/api/admin/hotels/')
-@SetMetadata('roles', [Role.admin]) // Запуска методы текущего класса может только Admin
+@SetMetadata('roles', [Role.admin]) // Запускать методы текущего класса может только Admin
 @UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
 export class HotelsAdminController {
   constructor(private readonly hotelsService: HotelsService) {}

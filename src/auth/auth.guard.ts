@@ -8,9 +8,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { IJwtPayload } from 'src/users/interfaces/jwt.payload';
+import { Reflector } from '@nestjs/core';
 
 import * as dotenv from 'dotenv';
-import { Reflector } from '@nestjs/core';
 dotenv.config();
 
 @Injectable()
