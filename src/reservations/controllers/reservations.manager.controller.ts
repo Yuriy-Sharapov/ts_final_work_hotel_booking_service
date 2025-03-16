@@ -15,8 +15,8 @@ import { IReservationSearchOptions } from '../interfaces/reservation.search.opti
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('/api/manager/reservations/')
-@SetMetadata('roles', [Role.manager])     // Запускать методы текущего класса может только Manager
-@UseGuards(AuthGuard)                     // Профиль пользователя под защитой JWT-токена
+@SetMetadata('roles', [Role.manager]) // Запускать методы текущего класса может только Manager
+@UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
 export class ReservationsManagerController {
   constructor(private readonly reservationsService: ReservationsService) {}
 

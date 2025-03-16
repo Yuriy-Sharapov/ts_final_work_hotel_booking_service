@@ -57,7 +57,7 @@ import { SupportRequestsGateway } from './support.requests/support.requests.gate
     RoomsService,
     ReservationsService,
     SupportRequestsService,
-    SupportRequestsGateway
+    SupportRequestsGateway,
   ],
 })
 export class AppModule {}

@@ -24,7 +24,9 @@ export class SupportRequestsClientService
     private readonly usersService: UsersService,
   ) {}
 
-  async createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequestDocument> {
+  async createSupportRequest(
+    data: ICreateSupportRequestDto,
+  ): Promise<SupportRequestDocument> {
     //u
     try {
       const sentDate = new Date();
@@ -33,14 +35,14 @@ export class SupportRequestsClientService
       const firstMessage: Message = {
         author: user,
         sentAt: sentDate,
-        text  : data.text,
+        text: data.text,
         readAt: null,
       };
       const supportRequest: SupportRequest = {
-        user     : user,
+        user: user,
         createdAt: sentDate,
-        messages : [firstMessage],
-        isActive : true,
+        messages: [firstMessage],
+        isActive: true,
       };
       const dbSupportRequest = new this.supportRequestModel(supportRequest);
       return dbSupportRequest.save();
@@ -49,7 +51,9 @@ export class SupportRequestsClientService
       return null;
     }
   }
-  async markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<IMarkMessagesAsReadAnswer> {
+  async markMessagesAsRead(
+    params: IMarkMessagesAsReadDto,
+  ): Promise<IMarkMessagesAsReadAnswer> {
     //u
 
     // Должен выставлять текущую дату в поле readAt всем сообщениям,
@@ -68,11 +72,10 @@ export class SupportRequestsClientService
         { readAt: date },
       );
 
-      return { "success": true }
-
+      return { success: true };
     } catch (e) {
       console.log(e);
-      return { "success": false }
+      return { success: false };
     }
   }
   async getUnreadCount(supportRequest: ID): Promise<number> {
@@ -80,7 +83,7 @@ export class SupportRequestsClientService
     // должен возвращать количество сообщений,
     // которые были отправлены любым сотрудником поддержки и не отмечены прочитанным
     return this.supportRequestModel.findById(supportRequest).countDocuments({
-      'messages.readAt'     : null,
+      'messages.readAt': null,
       'messages.author.role': Role.manager, // отправлены сотрудником поддержки
     });
   }

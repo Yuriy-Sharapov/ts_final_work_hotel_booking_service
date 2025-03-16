@@ -24,10 +24,12 @@ export class SupportRequestsService implements ISupportRequestService {
     @InjectModel(Message.name) private messageModel: Model<MessageDocument>,
     @InjectConnection() private connection: Connection,
     private readonly usersService: UsersService,
-    private readonly supportRequestsGateway: SupportRequestsGateway
+    private readonly supportRequestsGateway: SupportRequestsGateway,
   ) {}
 
-  async findSupportRequests(params: ISearchSupportRequestParams): Promise<SupportRequestDocument[]> {
+  async findSupportRequests(
+    params: ISearchSupportRequestParams,
+  ): Promise<SupportRequestDocument[]> {
     //u
     try {
       return await this.supportRequestModel.find(params).exec();
@@ -46,7 +48,7 @@ export class SupportRequestsService implements ISupportRequestService {
       const message: Message = {
         author: author,
         sentAt: new Date(),
-        text  : data.text,
+        text: data.text,
         readAt: null,
       };
 
@@ -100,6 +102,5 @@ export class SupportRequestsService implements ISupportRequestService {
   //   handler: (supportRequest: SupportRequest, message: Message) => void
   // ): Promise<() => void> {
 
-   
   // }
 }

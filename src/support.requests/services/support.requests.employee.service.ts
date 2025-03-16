@@ -20,7 +20,9 @@ export class SupportRequestsEmployeeService
     @InjectConnection() private connection: Connection,
   ) {}
 
-  async markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<IMarkMessagesAsReadAnswer> {
+  async markMessagesAsRead(
+    params: IMarkMessagesAsReadDto,
+  ): Promise<IMarkMessagesAsReadAnswer> {
     //u
 
     // должен выставлять текущую дату в поле readAt всем сообщениям,
@@ -38,11 +40,10 @@ export class SupportRequestsEmployeeService
         { readAt: date },
       );
 
-      return { "success": true }
-
+      return { success: true };
     } catch (e) {
       console.log(e);
-      return { "success": false }
+      return { success: false };
     }
   }
 

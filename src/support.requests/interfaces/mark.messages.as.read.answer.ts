@@ -1,3 +1,3 @@
 export interface IMarkMessagesAsReadAnswer {
-    success: boolean
+  success: boolean;
 }

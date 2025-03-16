@@ -14,8 +14,8 @@ import { IParamId, Role } from 'src/types';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('/api/admin/hotel-rooms/')
-@SetMetadata('roles', [Role.admin])     // Запускать методы текущего класса может только Admin
-@UseGuards(AuthGuard)                   // Профиль пользователя под защитой JWT-токена
+@SetMetadata('roles', [Role.admin]) // Запускать методы текущего класса может только Admin
+@UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
 export class RoomsAdminController {
   constructor(private readonly roomsService: RoomsService) {}
 

@@ -5,7 +5,11 @@ import { IMarkMessagesAsReadDto } from 'src/support.requests/interfaces/mark.mes
 import { IMarkMessagesAsReadAnswer } from './mark.messages.as.read.answer';
 
 export interface ISupportRequestClientService {
-  createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequestDocument>;
-  markMessagesAsRead(params: IMarkMessagesAsReadDto): Promise<IMarkMessagesAsReadAnswer>;
+  createSupportRequest(
+    data: ICreateSupportRequestDto,
+  ): Promise<SupportRequestDocument>;
+  markMessagesAsRead(
+    params: IMarkMessagesAsReadDto,
+  ): Promise<IMarkMessagesAsReadAnswer>;
   getUnreadCount(supportRequest: ID): Promise<number>;
 }

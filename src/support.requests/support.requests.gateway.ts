@@ -18,11 +18,14 @@ export class SupportRequestsGateway {
   // Получаем все сообщения для конкретного Обращения в поддержку
   @SubscribeMessage('getAllMessages')
   async onGetAllMessages(@ConnectedSocket() socket: Socket): Promise<any> {
-    const handshakeReferer = socket.handshake.headers.referer
-    // Получаем ид Обращения в поддержку 
-    const supportRequestId = new Schema.ObjectId(handshakeReferer.split('/')[3]);
+    const handshakeReferer = socket.handshake.headers.referer;
+    // Получаем ид Обращения в поддержку
+    const supportRequestId = new Schema.ObjectId(
+      handshakeReferer.split('/')[3],
+    );
 
-    const messages = await this.supportRequestsService.getMessages(supportRequestId)
+    const messages =
+      await this.supportRequestsService.getMessages(supportRequestId);
     return messages;
   }
 
@@ -33,13 +36,15 @@ export class SupportRequestsGateway {
     @ConnectedSocket() socket: Socket,
   ): Promise<any> {
     const handshakeReferer = socket.handshake.headers.referer;
-    // Получаем ид Обращения в поддержку 
-    const supportRequestId = new Schema.ObjectId(handshakeReferer.split('/')[3]);
+    // Получаем ид Обращения в поддержку
+    const supportRequestId = new Schema.ObjectId(
+      handshakeReferer.split('/')[3],
+    );
 
     const sendMessageDto: ISendMessageDto = {
-      authorId        : body.authorId,
+      authorId: body.authorId,
       supportRequestId: supportRequestId,
-      text            : body.text,
+      text: body.text,
     };
     await this.supportRequestsService.sendMessage(sendMessageDto);
 

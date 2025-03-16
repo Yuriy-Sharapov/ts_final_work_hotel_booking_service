@@ -28,7 +28,6 @@ export class SupportRequestsGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-
     const request = context.switchToHttp().getRequest();
 
     // Получаем JWT-токен
@@ -36,7 +35,7 @@ export class SupportRequestsGuard implements CanActivate {
 
     if (!token) throw new UnauthorizedException();
 
-    let payload: IJwtPayload
+    let payload: IJwtPayload;
     try {
       // Получаем полезную информацию из JWT-токена
       payload = await this.jwtService.verifyAsync(token, {
@@ -45,7 +44,7 @@ export class SupportRequestsGuard implements CanActivate {
     } catch {
       throw new UnauthorizedException();
     }
-    
+
     // Проверяем соответствует ли роль авторизованного пользователя,
     // списку ролей, которые закреплены за методом контроллера
 
@@ -53,7 +52,7 @@ export class SupportRequestsGuard implements CanActivate {
     const currentRouteRoles = this.reflector.get<string[]>(
       'roles',
       context.getHandler(),
-    )
+    );
 
     // Для метода контроллера, защищаемого этим защитником, обязательно должна быть прописана роль
     if (!currentRouteRoles) {
@@ -62,24 +61,34 @@ export class SupportRequestsGuard implements CanActivate {
 
     // Если список ролей метода НЕ содержит роль текущего пользователя, выдаем ошибку
     if (!currentRouteRoles.includes(request['user'].role)) {
-      throw new ForbiddenException('Список ролей метода НЕ содержит роль текущего пользователя'); // HTTP 403
+      throw new ForbiddenException(
+        'Список ролей метода НЕ содержит роль текущего пользователя',
+      ); // HTTP 403
     }
 
     // Получаем параметры запуска метода контроллера
     const params = context.getArgs();
     const supportRequestId = params[0]; // Первый аргумент, переданный в контролируемый метод
-    
+
     if (!supportRequestId)
       throw new BadRequestException('Не передано ID обращения в поддержку.');
-      
-    const supportRequest = await this.supportRequestsService.findById(supportRequestId)
+
+    const supportRequest =
+      await this.supportRequestsService.findById(supportRequestId);
 
     if (!supportRequest) {
-      throw new BadRequestException(`Обращения в поддержку с указанным ID ${supportRequestId} не существует`)  // HTTP 400
+      throw new BadRequestException(
+        `Обращения в поддержку с указанным ID ${supportRequestId} не существует`,
+      ); // HTTP 400
     }
 
-    if(request['user'].role === Role.client && supportRequest.user._id.toString() != payload.id) {
-      throw new BadRequestException(`Автором обращения в поддержку с ID ${supportRequest} является другой пользователь`) // HTTP 400
+    if (
+      request['user'].role === Role.client &&
+      supportRequest.user._id.toString() != payload.id
+    ) {
+      throw new BadRequestException(
+        `Автором обращения в поддержку с ID ${supportRequest} является другой пользователь`,
+      ); // HTTP 400
     }
 
     return true;
@@ -88,5 +97,5 @@ export class SupportRequestsGuard implements CanActivate {
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
-  }  
+  }
 }

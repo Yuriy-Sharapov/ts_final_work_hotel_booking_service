@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { User, UserHDocument, UserSchema } from 'src/users/users.schema';
+import { HydratedDocument } from 'mongoose';
+import { UserHDocument, UserSchema } from 'src/users/users.schema';
 
 export type MessageDocument = HydratedDocument<Message>;
 //export type MessageDocument = Message & Document

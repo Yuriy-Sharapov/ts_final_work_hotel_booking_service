@@ -17,8 +17,8 @@ import { Role } from 'src/types';
 import { ISearchUserParams } from '../interfaces/search.user.params';
 
 @Controller('api/admin/users')
-@SetMetadata('roles', [Role.admin])     // Запускать методы текущего класса может только Admin
-@UseGuards(AuthGuard)                   // Профиль пользователя под защитой JWT-токена
+@SetMetadata('roles', [Role.admin]) // Запускать методы текущего класса может только Admin
+@UseGuards(AuthGuard) // Профиль пользователя под защитой JWT-токена
 export class UsersAdminController {
   constructor(private readonly usersService: UsersService) {
     // Проверяем, какие пользователи проинициализированы

@@ -32,9 +32,9 @@ export class AuthService {
     // }
 
     const payload: IJwtPayload = {
-      id          : user.id.toString(),
-      email       : user.email,
-      name        : user.name,
+      id: user.id.toString(),
+      email: user.email,
+      name: user.name,
       contactPhone: user.contactPhone,
     };
     return {
